@@ -1,0 +1,30 @@
+Voici la convention de nommage pour les commits -> type(sujet) : message
+
+Cette convention invite à effectuer des petites modifications à la fois et de les regrouper sous un même type puis à les commiter.
+Elle simplifie la navigation dans l'historique de git.
+
+Le type permet de donner la nature principale des modifications apportées.
+
+Le type sera à prendre parmi la liste ci-dessous :
+- feat : fonctionnalité pour l'utilisateur
+- wip : Travail en cours sur une fonctionnalité
+- fix : Corrections de bugs
+- refactor : Refactorisation de code, modification de code pour optimisation
+- test : Ajout ou modification de test dans l'application
+- docs : Changements dans la documentation
+- style : Oubli de point-virgule, correction de syntaxe, modifications de l'interface graphique, mise en forme de code
+- chore : Modification répétitive de code, nettoyage de code
+- build : Changements dans le système de build ou des dépendances externes (Makefile, npm,...)
+- ci : Changements dans les fichiers et scripts d'intégration ou de configuration (Travis, Ansible, BrowserStack, ...)
+- perf : Modifications du code impactant les performances (temps, mémoire,...)
+- git : Commit relié à git (merge,...)
+
+Attention aux modifcations de fix et refactor qui ont tendance à créer des régressions de code !
+Il est possible de combiner les types si les modifications sont de différentes natures.
+Par exemple, une nouvelle fonctionnalité venant d'être écrite et qui a été documentée aura un type feat+docs.
+
+
+Le sujet (ou scope) peut être remplacé par le numéro de la question, le numéro de la partie, le fichier modifié ou encore un titre général des modifications apportées.
+
+
+Le message correspond aux détails des modifications apportées.
