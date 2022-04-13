@@ -45,4 +45,32 @@ public class DataFrame {
             }
         }
     }
+
+
+	public int nbLigne() {
+        return dataframe.get(0).size();
+    }
+
+	public int nbColonne() {
+        return labels.size();
+    }
+
+	public ArrayList<?> getColumn(String string) {
+        return dataframe.get(labels.indexOf(string));
+    }
+
+    public String toString() {
+        String s = "";
+        for (int i = 0; i < labels.size(); i++) {
+            s += labels.get(i) + "\t";
+        }
+        s += "\n";
+        for (int i = 0; i <nbLigne; i++) {
+            for (int j = 0; j < dataframe.size(); j++) {
+                s += dataframe.get(j).get(i) + "\t";
+            }
+            s += "\n";
+        }
+        return s;
+    }
 }
