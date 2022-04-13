@@ -2,14 +2,19 @@ package com.devops;
 
 import java.io.File;
 import java.lang.reflect.Type;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.text.TableView.TableRow;
 
 public class DataFrame {
-    ArrayList<ArrayList<Object>> dataframe;
     ArrayList<String> labels;
+    ArrayList<ArrayList<?>> dataframe;
+    Integer nbLigne = 0;
 
 
 
@@ -21,76 +26,23 @@ public class DataFrame {
      * @param table : tableau de tableau contenant les données
      * @throws Exception
      */
-    public DataFrame(ArrayList<String> label, ArrayList<Object>[] tableau) throws Exception{
-        if (label.size() != tableau.length) 
-            throw new Exception("Nombre de label incompatible avec le nombre de colonne");
+    public DataFrame(ArrayList<String> label, ArrayList<ArrayList<?>> tableau) throws Exception{
+        if (label.size() != tableau.size()) 
+            throw new Exception("Nombre de label incompatible avec le nombre de colonne du tableau");
         labels = new ArrayList<String>(label);
 
-        dataframe = new ArrayList<ArrayList<Object>>();
+        dataframe = new ArrayList<ArrayList<?>>();
         // Remplir dataFrame en conservant les types d'entrée
-        for (int i = 0; i < tableau.length; i++) {
-            Class a = tableau[i].get(0).getClass();
-
-            Type type = a.getGenericSuperclass();
-            ArrayList<type> ligne = new ArrayList<Object>(tableau[i]);
-            dataframe.add(ligne);
-        }//*/
-
-        // Autre méthode
-        for (int i = 0; i < tableau.length; i++) {
-            if (tableau[i] instanceof ArrayList) {
-                if (tableau[i].get(0) instanceof String)
-                    dataframe.add(
-                        new ArrayList<String>( (ArrayList<String>) tableau[i]) );
-            } else {
-                throw new Exception("Type des données de la colonne " + i + " incorrect");
-            }
-        }//*/
-    }
-
-    /**
-     * 
-     * Génére un DataFrame en utilisant un fichier CSV contenant sur la première ligne les labels
-     * des colonnes et les données sur les lignes suivantes
-     * 
-     * @param fileName : nom du fichier CSV contenant les données à utiliser pour générer le DataFrame
-     */
-    public DataFrame(String fileName){
-        try{
-            labels = new ArrayList<String>();
-            dataframe = new ArrayList<ArrayList<>>();
-            File file = new File(fileName);
-            Scanner scanner = new Scanner(file);
-            String[] line = scanner.nextLine().split(",");
-            for (int i = 0; i < line.length; i++) {
-                labels.add(line[i]);
-            }
-            
-            /*
-            line = scanner.nextLine().split(",");
-            try {
-                Integer.parseInt(line[0]);
-            } catch (NumberFormatException e) {
-                // Ben c'est pas un int
-            }//*/
-            Pattern numbers = Pattern.compile("[^\p{alpha}]\d+[^\p{alpha}]")
-            for (int i = 0; i < line.length; i++){
-
-            }
-
-            do{
-                for(int i = 0; i < line.length; i++){
-                    dataframe.get(i).add(line[i]);
+        for (int i = 0; i < tableau.size(); i++) {
+            ArrayList<?> ligne = (ArrayList<?>) tableau.get(i).clone();
+            if (ligne.size() == 1 || ligne.size() == nbLigne || nbLigne == 0) {
+                dataframe.add(ligne);
+                if (nbLigne != 1){
+                    nbLigne = ligne.size();
                 }
-                line = scanner.nextLine().split(",");}
-            while(scanner.hasNextLine());
-            scanner.close();
-        }   
-        catch(Exception e){
-            e.printStackTrace();
+            } else {
+                throw new Exception("Nombre de ligne incoherent (non constant et different de 1)");
+            }
         }
     }
-
-    
-    
 }
