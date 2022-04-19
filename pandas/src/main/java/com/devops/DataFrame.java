@@ -14,7 +14,7 @@ import javax.swing.text.TableView.TableRow;
 public class DataFrame {
     ArrayList<String> labels;
     ArrayList<ArrayList<?>> dataframe;
-    Integer nbLigne = 0;
+    private Integer nbLigne = 0;
 
 
 
@@ -134,30 +134,56 @@ public class DataFrame {
         }
     }
 
+    /**
+    * Fonction qui retourne le nombre de ligne du DataFrame
+    * @return le nombre de ligne du DataFrame
+    */
 	public int nbLigne() {
         return dataframe.get(0).size();
     }
 
+    /**
+    * Fonction qui retourne le nombre de colonne du DataFrame
+    * @return le nombre de colonne du DataFrame
+    */
 	public int nbColonne() {
         return labels.size();
     }
 
-	public ArrayList<?> getColumn(String string) {
+    /**
+    * Fonction qui retourne le nom de la colonne à l'indice i
+    * @param i : indice de la colonne
+    * @exception IllegalArgumentException si i est hors de la plage de valeurs
+    * @return le nom de la colonne à l'indice i  
+     */
+	public ArrayList<?> getColumn(String string) throws IllegalArgumentException {
+        int i = labels.indexOf(string);
+        if(i == -1){
+            throw new IllegalArgumentException("La colonne n'existe pas");
+        }
         return dataframe.get(labels.indexOf(string));
     }
-
+    /**
+    * Fonction qui retourne les 10 premières lignes du DataFrame
+    * @return les 10 premières lignes du DataFrame
+    */
     public String head() {
         return head(10);
     }
 
+    /**
+    * Fonction qui retourne les n premières lignes du DataFrame
+    * @param n : nombre de ligne à retourner
+    * @return les n premières lignes du DataFrame
+    */
     public String head(int nbl) {
         String s = "";
         for (int i = 0; i < labels.size(); i++) {
             s += labels.get(i) + "\t";
         }
         s += "\n";
-        int mini = nbLigne < nbl ? nbLigne : nbl;
-        for (int i = 0; i < nbl; i++) {
+        int mini = nbLigne < nbl ? nbLigne : nbl; 
+        for (int i = 0; i < mini; i++) {
             for (int j = 0; j < dataframe.size(); j++) {
                 try{
                 s += dataframe.get(j).get(i) + "\t";
@@ -171,6 +197,10 @@ public class DataFrame {
         return s;
     }
 
+    /**
+    * Fonction qui retourne les lignes du DataFrame
+    * @return les lignes composant le DataFrame
+    */
     public String toString() {
         return head(Integer.MAX_VALUE);
     }
@@ -250,5 +280,6 @@ public class DataFrame {
         public Date getDate(){
             return dateValue;
         }
+
     }
 }
