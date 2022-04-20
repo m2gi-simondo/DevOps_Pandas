@@ -83,8 +83,6 @@ public class DataFrameTest {
     public void TestnbLigne(){
         ArrayList<String> labels = new ArrayList<String>();
             labels.add("col1");
-            labels.add("col2");
-            labels.add("col3");
             ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
             ArrayList<Integer> colonne1 = new ArrayList<Integer>();
             colonne1.add(1);
@@ -96,7 +94,6 @@ public class DataFrameTest {
             df = new DataFrame(labels, data);
             assertEquals("Nombre de ligne : ",3, df.nbLigne());
         } catch (Exception e) {
-            
             e.printStackTrace();
         }
     }
@@ -107,11 +104,17 @@ public class DataFrameTest {
             labels.add("col1");
             labels.add("col2");
             labels.add("col3");
-            ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
+            ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>(3);
+            ArrayList<Integer> colonne1 = new ArrayList<Integer>();
+            data.add(colonne1);
+            ArrayList<Integer> colonne2 = new ArrayList<Integer>();
+            data.add(colonne2);
+            ArrayList<Integer> colonne3 = new ArrayList<Integer>();
+            data.add(colonne3);
         DataFrame df;
         try {
             df = new DataFrame(labels, data);
-            assertEquals("Nombre de colonne ",0,df.nbLigne());
+            assertEquals("Nombre de ligne ", 0, df.nbLigne());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,8 +124,6 @@ public class DataFrameTest {
     public void TestnbColonne(){
         ArrayList<String> labels = new ArrayList<String>();
             labels.add("col1");
-            labels.add("col2");
-            labels.add("col3");
             ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
             ArrayList<Integer> colonne1 = new ArrayList<Integer>();
             colonne1.add(1);
@@ -132,9 +133,8 @@ public class DataFrameTest {
         DataFrame df;
         try {
             df = new DataFrame(labels, data);
-            assertEquals("Nombre de colonne : ",3, df.nbColonne());
+            assertEquals("Nombre de colonne : ", 1, df.nbColonne());
         } catch (Exception e) {
-            
             e.printStackTrace();
         }
     }
@@ -146,7 +146,7 @@ public class DataFrameTest {
         DataFrame df;
         try {
             df = new DataFrame(labels, data);
-            assertEquals("Nombre de colonne ",0,df.nbColonne());
+            assertEquals("Nombre de colonne ", 0, df.nbColonne());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -282,7 +282,6 @@ public class DataFrameTest {
         ArrayList<String> labels = new ArrayList<String>();
             labels.add("col1");
             labels.add("col2");
-            labels.add("col3");
             ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
             ArrayList<Integer> colonne1 = new ArrayList<Integer>();
             colonne1.add(1);
@@ -297,13 +296,11 @@ public class DataFrameTest {
         DataFrame df;
         try {
             df = new DataFrame(labels, data);
-            assertEquals("Nombre de colonne : ",3, df.nbColonne());
-            assertEquals("Obtenir la premiere colonne","col1\tcol2\tcol3\t\n1\t4\t7\t\n2\t5\t8\t\n", df.toString());
+            assertEquals("Nombre de colonne : ",2, df.nbColonne());
+            assertEquals("Obtenir la premiere colonne","col1\tcol2\t\n1\t4\t\n2\t5\t\n3\t6\t\n", df.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-}
 
-    
-    
+}
