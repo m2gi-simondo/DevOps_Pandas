@@ -39,11 +39,11 @@ public class DataFrame {
 
     /**
      * 
-     * Crée un DataFrame à partir d'une sélection de colonne 
-     * @param index : tableau des index de colonne à prendre
+     * Crée un DataFrame à partir d'une sélection de colonnes
+     * @param labelSelec : tableau des labels des colonnes à sélectionner
      * @return : nouveau DataFrame
      */
-    public DataFrame indexSelection(String[] labelsSelec) {
+    public DataFrame labelSelection(String[] labelsSelec) {
         //TODO gérer les erreurs
         ArrayList<String> newLabels = new ArrayList<String>();
         ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
@@ -63,15 +63,64 @@ public class DataFrame {
     /**
      * Crée un DataFrame à partir d'une colonne
      * 
-     * @param index : index de la colonne à prendre
+     * @param index : labels de la colonne à prendre
      * @return : nouveau DataFrame
      */
-    public DataFrame indexSelection(String labelSelec) {
+    public DataFrame labelSelection(String labelSelec) {
         //TODO gérer les erreurs
         ArrayList<String> newLabels = new ArrayList<String>();
         newLabels.add(labelSelec);
         ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
         newDataframe.add(dataframe.get(labels.indexOf(labelSelec)));
+        try {
+            return new DataFrame(newLabels, newDataframe);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 
+     * Crée un DataFrame à partir d'une sélection de lignes
+     * @param index : tableau des indices des lignes à prendre
+     * @return : nouveau DataFrame
+     */
+    public DataFrame ligneIndexSelection(Integer[] ligneSelec) {
+        //TODO gérer les erreurs
+        ArrayList<String> newLabels = (ArrayList<String>) labels.clone();
+        ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
+        for (int i = 0; i < labels.size(); i++) {
+            ArrayList<?> ligne = (ArrayList<?>) dataframe.get(i).clone();
+            ligne.clear();
+            for (Integer index : ligneSelec) {
+                ligne.add(dataframe.get(i).get(index));
+            }
+            newDataframe.add(ligne);
+        }
+        try {
+            return new DataFrame(newLabels, newDataframe);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 
+     * Crée un DataFrame à partir d'une sélection de lignes
+     * @param index : tableau des indices de la ligne à prendre
+     * @return : nouveau DataFrame
+     */
+    public DataFrame ligneIndexSelection(Integer index){
+        //TODO gérer les erreurs
+        ArrayList<String> newLabels = (ArrayList<String>) labels.clone();
+        ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
+        for (int i = 0; i < labels.size(); i++) {
+            newDataframe.add(dataframe.get(i).get(index));
+        }
         try {
             return new DataFrame(newLabels, newDataframe);
         } catch (Exception e) {
