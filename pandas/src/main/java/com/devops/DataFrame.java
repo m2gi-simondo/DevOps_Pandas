@@ -36,6 +36,50 @@ public class DataFrame {
             }
         }
     }
+
+    /**
+     * 
+     * Crée un DataFrame à partir d'une sélection de colonne 
+     * @param index : tableau des index de colonne à prendre
+     * @return : nouveau DataFrame
+     */
+    public DataFrame indexSelection(String[] labelsSelec) {
+        //TODO gérer les erreurs
+        ArrayList<String> newLabels = new ArrayList<String>();
+        ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
+        for (String iterable_element : labelsSelec) {
+            int index = labels.indexOf(iterable_element);
+            newLabels.add(iterable_element);
+            newDataframe.add(dataframe.get(index));
+        }
+        try {
+            return new DataFrame(newLabels, newDataframe);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Crée un DataFrame à partir d'une colonne
+     * 
+     * @param index : index de la colonne à prendre
+     * @return : nouveau DataFrame
+     */
+    public DataFrame indexSelection(String labelSelec) {
+        //TODO gérer les erreurs
+        ArrayList<String> newLabels = new ArrayList<String>();
+        newLabels.add(labelSelec);
+        ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
+        newDataframe.add(dataframe.get(labels.indexOf(labelSelec)));
+        try {
+            return new DataFrame(newLabels, newDataframe);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+    }
     
     /**
     * Fonction qui retourne le nombre de ligne du DataFrame
