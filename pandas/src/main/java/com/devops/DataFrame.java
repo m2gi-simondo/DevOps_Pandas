@@ -142,7 +142,6 @@ public class DataFrame {
      * @return : nouveau DataFrame
      */
     public DataFrame labelSelection(String[] labelsSelec) {
-        //TODO gérer les erreurs
         ArrayList<String> newLabels = new ArrayList<String>();
         ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
         for (String iterable_element : labelsSelec) {
@@ -165,7 +164,6 @@ public class DataFrame {
      * @return : nouveau DataFrame
      */
     public DataFrame labelSelection(String labelSelec) {
-        //TODO gérer les erreurs
         ArrayList<String> newLabels = new ArrayList<String>();
         newLabels.add(labelSelec);
         ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
@@ -173,7 +171,6 @@ public class DataFrame {
         try {
             return new DataFrame(newLabels, newDataframe);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return null;
         }
@@ -186,7 +183,6 @@ public class DataFrame {
      * @return : nouveau DataFrame
      */
     public DataFrame ligneIndexSelection(Integer[] ligneSelec) {
-        //TODO gérer les erreurs
         ArrayList<String> newLabels = (ArrayList<String>) labels.clone();
         ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
         for (int i = 0; i < labels.size(); i++) {
@@ -214,7 +210,6 @@ public class DataFrame {
                     ligne = (ArrayList<?>) ligneFloat.clone();
                     break;
                 default:
-                // TODO trouver une méthode pour être généraliste
                     ArrayList<Integer> ligneS = new ArrayList<Integer>();
                     ligneS.add(0);
                     ligne = (ArrayList<?>) ligneS.clone();
@@ -225,7 +220,6 @@ public class DataFrame {
         try {
             return new DataFrame(newLabels, newDataframe);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return null;
         }
@@ -238,7 +232,6 @@ public class DataFrame {
      * @return : nouveau DataFrame
      */
     public DataFrame ligneIndexSelection(Integer index){
-        //TODO gérer les erreurs
         ArrayList<String> newLabels = (ArrayList<String>) labels.clone();
         ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
         for (int i = 0; i < labels.size(); i++) {
@@ -260,7 +253,6 @@ public class DataFrame {
                     ligne = (ArrayList<?>) ligneFloat.clone();
                     break;
                 default:
-                // TODO trouver une méthode pour être généraliste
                     ArrayList<Integer> ligneS = new ArrayList<Integer>();
                     ligneS.add(0);
                     ligne = (ArrayList<?>) ligneS.clone();
@@ -271,7 +263,6 @@ public class DataFrame {
         try {
             return new DataFrame(newLabels, newDataframe);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return null;
         }
