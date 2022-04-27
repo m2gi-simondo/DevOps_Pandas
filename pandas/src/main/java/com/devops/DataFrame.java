@@ -128,8 +128,7 @@ public class DataFrame {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally{
+        } finally{
             if (scanner != null){
                 scanner.close();
             }
@@ -137,12 +136,11 @@ public class DataFrame {
     }
 
     /**
-     * Crée un DataFrame à partir d'une sélection de colonnes
+     * Crée un DataFrame à partir d'une sélection de colonnes, donnée par leurs labels
      * @param labelSelec : tableau des labels des colonnes à sélectionner
      * @return : nouveau DataFrame
      */
     public DataFrame labelSelection(String[] labelsSelec) {
-        //TODO gérer les erreurs
         ArrayList<String> newLabels = new ArrayList<String>();
         ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
         for (String iterable_element : labelsSelec) {
@@ -159,13 +157,12 @@ public class DataFrame {
     }
 
     /**
-     * Crée un DataFrame à partir d'une colonne
+     * Crée un DataFrame à partir d'une colonne, donnée par son label
      * 
      * @param index : labels de la colonne à prendre
      * @return : nouveau DataFrame
      */
     public DataFrame labelSelection(String labelSelec) {
-        //TODO gérer les erreurs
         ArrayList<String> newLabels = new ArrayList<String>();
         newLabels.add(labelSelec);
         ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
@@ -173,7 +170,6 @@ public class DataFrame {
         try {
             return new DataFrame(newLabels, newDataframe);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return null;
         }
@@ -186,7 +182,6 @@ public class DataFrame {
      * @return : nouveau DataFrame
      */
     public DataFrame ligneIndexSelection(Integer[] ligneSelec) {
-        //TODO gérer les erreurs
         ArrayList<String> newLabels = (ArrayList<String>) labels.clone();
         ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
         for (int i = 0; i < labels.size(); i++) {
@@ -214,7 +209,6 @@ public class DataFrame {
                     ligne = (ArrayList<?>) ligneFloat.clone();
                     break;
                 default:
-                // TODO trouver une méthode pour être généraliste
                     ArrayList<Integer> ligneS = new ArrayList<Integer>();
                     ligneS.add(0);
                     ligne = (ArrayList<?>) ligneS.clone();
@@ -225,7 +219,6 @@ public class DataFrame {
         try {
             return new DataFrame(newLabels, newDataframe);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return null;
         }
@@ -234,11 +227,10 @@ public class DataFrame {
     /**
      * 
      * Crée un DataFrame à partir d'une sélection de lignes
-     * @param index : tableau des indices de la ligne à prendre
+     * @param index : indice de la ligne à prendre
      * @return : nouveau DataFrame
      */
     public DataFrame ligneIndexSelection(Integer index){
-        //TODO gérer les erreurs
         ArrayList<String> newLabels = (ArrayList<String>) labels.clone();
         ArrayList<ArrayList<?>> newDataframe = new ArrayList<ArrayList<?>>();
         for (int i = 0; i < labels.size(); i++) {
@@ -260,7 +252,6 @@ public class DataFrame {
                     ligne = (ArrayList<?>) ligneFloat.clone();
                     break;
                 default:
-                // TODO trouver une méthode pour être généraliste
                     ArrayList<Integer> ligneS = new ArrayList<Integer>();
                     ligneS.add(0);
                     ligne = (ArrayList<?>) ligneS.clone();
@@ -271,7 +262,6 @@ public class DataFrame {
         try {
             return new DataFrame(newLabels, newDataframe);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return null;
         }
@@ -309,10 +299,10 @@ public class DataFrame {
     }
 
     /**
-     * Fonction qui retourne la colonne de label donnee
+     * Fonction qui retourne la colonne de label donnée
      *
      * @param string : labels de la colonne
-     * @exception IllegalArgumentException si i est hors de la plage de valeurs
+     * @exception IllegalArgumentException Si le labale n'existe pas
      * @return la colonne de label donnee
      */
     public ArrayList<?> getColumn(String string) throws IllegalArgumentException {
@@ -385,13 +375,15 @@ public class DataFrame {
     }
 
     /**
-     * Fonction qui retourne les lignes du DataFrame
+     * Fonction qui retourne toutes lignes du DataFrame
      * 
      * @return les lignes composant le DataFrame
      */
     public String toString() {
         return head(Integer.MAX_VALUE);
     }
+
+    
     /**
      * Fonction qui retourne la moyenne d'une colonne d'un dataframe
     * @param string : nom de la colonne
@@ -578,11 +570,6 @@ public class DataFrame {
     }
 
 
-    /**
-     * Fonction qui retourne le troisième quartile d'une colonne d'un dataframe
-     * @param string : nom de la colonne
-     * @return le troisième quartile d'une colonne d'un dataframe
-     */
     private ArrayList<Double> convertToDouble(ArrayList<?> list) {
         ArrayList<Double> listDouble = new ArrayList<>();
         switch (list.get(0).getClass().getName()) {

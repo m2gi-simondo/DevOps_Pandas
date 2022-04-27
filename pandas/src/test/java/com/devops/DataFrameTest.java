@@ -192,7 +192,6 @@ public class DataFrameTest {
         }
     }
 
-    //TODO : Test getColumnError
     /*
     @Test (expected = IllegalArgumentException.class)
     public void TestGetColumnError() {
