@@ -35,12 +35,15 @@ public class DataFrame {
             ArrayList<?> ligne = (ArrayList<?>) tableau.get(i).clone();
             if (ligne.size() == 1 || ligne.size() == nbLigne || nbLigne == 0) {
                 dataframe.add(ligne);
-                if (nbLigne != 1) {
+                if (ligne.size() != 1) {
                     nbLigne = ligne.size();
                 }
             } else {
                 throw new Exception("Nombre de ligne incoherent (non constant et different de 1)");
             }
+        }
+        if (nbLigne == 0) {
+            nbLigne = 1;
         }
     }
 
@@ -303,11 +306,11 @@ public class DataFrame {
     }
 
     /**
-     * Fonction qui retourne le nom de la colonne à l'indice i
+     * Fonction qui retourne la colonne de label donnee
      * 
-     * @param i : indice de la colonne
+     * @param string : labels de la colonne
      * @exception IllegalArgumentException si i est hors de la plage de valeurs
-     * @return le nom de la colonne à l'indice i
+     * @return la colonne de label donnee
      */
     public ArrayList<?> getColumn(String string) throws IllegalArgumentException {
         int i = labels.indexOf(string);
