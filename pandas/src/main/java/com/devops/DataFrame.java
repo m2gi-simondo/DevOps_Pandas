@@ -589,56 +589,6 @@ public class DataFrame {
         return listDouble;
     }
 
-
-    /**
-     * Fonction qui retourne le troisième quartile d'une colonne d'un dataframe
-     * @param string : nom de la colonne
-     * @return le troisième quartile d'une colonne d'un dataframe
-     */
-    private ArrayList<Double> convertToDouble(ArrayList<?> list) {
-        ArrayList<Double> listDouble = new ArrayList<>();
-        switch (list.get(0).getClass().getName()) {
-            case "java.lang.Integer":
-                for (int i = 0; i < list.size(); i++) {
-                    listDouble.add(((Integer) list.get(i)).doubleValue());
-                }
-                break;
-            case "java.lang.Float":
-                for (int i = 0; i < list.size(); i++) {
-                    listDouble.add(((Float) list.get(i)).doubleValue());
-                }
-                break;
-            case "java.lang.Double":
-                for (int i = 0; i < list.size(); i++) {
-                    listDouble.add((Double) list.get(i));
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("La colonne n'est pas de type numérique");
-        }
-        return listDouble;
-    }
-
-
-    public int max(String string) throws IllegalArgumentException {
-        int i = labels.indexOf(string);
-        if (i == -1) {
-            throw new IllegalArgumentException("La colonne n'existe pas");
-        }
-
-        if (!(dataframe.get(i).get(0) instanceof Integer || dataframe.get(i).get(0) instanceof Float) || dataframe.get(i).get(0) instanceof Double) {
-            throw new IllegalArgumentException("La colonne n'est pas de type numérique");
-        }
-
-        int max = (int) dataframe.get(i).get(0);
-        for (int j = 0; j < dataframe.get(i).size(); j++) {
-            if ((int) dataframe.get(i).get(j) > max) {
-                max = (int) dataframe.get(i).get(j);
-            }
-        }
-        return max;
-    }
-
     static public class multiType {
         private int type;
         private String strValue;
