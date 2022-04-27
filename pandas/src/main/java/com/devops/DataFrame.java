@@ -337,6 +337,32 @@ public class DataFrame {
     }
 
     /**
+     * Fonction qui retourne les x dernières lignes du DataFrame
+     * 
+     * @param x : nombre de ligne à retourner
+     * @return les x dernières lignes du DataFrame
+     */
+    public String tail(Integer x){
+        String s = "";
+        for (int i = 0; i < labels.size(); i++) {
+            s += labels.get(i) + "\t";
+        }
+        s += "\n";
+        int mini = nbLigne < x ? nbLigne : x;
+        for (int i = nbLigne - mini; i < nbLigne; i++) {
+            for (int j = 0; j < dataframe.size(); j++) {
+                try {
+                    s += dataframe.get(j).get(i) + "\t";
+                } catch (Exception e) {
+                    s += dataframe.get(j).get(0) + "\t";
+                }
+            }
+            s += "\n";
+        }
+        return s;
+    }
+
+    /**
      * Fonction qui retourne les lignes du DataFrame
      * 
      * @return les lignes composant le DataFrame
