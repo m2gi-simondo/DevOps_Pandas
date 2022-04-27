@@ -1,10 +1,8 @@
 package com.devops;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,17 +65,14 @@ public class DataFrame {
             String[] line = scanner.nextLine().split(",");
             nbLabel = line.length;
             for (String label : line) {
-                labels.add(label);
+                labels.add(label.trim());
+                tmpDataframe.add(new ArrayList<multiType>());
             }
 
-            // On determine le type sur la première ligne
-            line = scanner.nextLine().split(",");
-            if (line.length != nbLabel) {
-                throw new Exception("la première ligne ne contient pas le bon nombre d'élément");
-            }
             multiType newInput;
             while (scanner.hasNextLine()) {
                 line = scanner.nextLine().split(",");
+                nbLigne++;
                 if (line.length != nbLabel) {
                     throw new Exception("Une ligne ne contient pas le bon nombre d'élément");
                 }
@@ -86,7 +81,7 @@ public class DataFrame {
                     tmpDataframe.get(i).add(newInput);
                 }
             }
-
+            dataframe = new ArrayList<ArrayList<?>>();
             //on a un tableau temporaire complet, il faut maintenant le convertir pour avoir les bons types.
             for(int i = 0; i < tmpDataframe.size(); i++){
                 ArrayList<multiType> colonneCourante = tmpDataframe.get(i);
@@ -123,17 +118,6 @@ public class DataFrame {
                             tmpFloatColonne.add(item.getFloat());
                         }
                         dataframe.add(tmpFloatColonne);
-                        break;
-                    case 3:
-                        ArrayList<Date> tmpDateColonne = new ArrayList<Date>();
-                        for(int j = 0; j < colonneCourante.size(); j++){
-                            multiType item = colonneCourante.get(j);
-                            if(item.getMultiType() != 3){
-                                throw new Exception("Le type d'un élément de la colonne n'est pas le même que les autres");
-                            }
-                            tmpDateColonne.add(item.getDate());
-                        }
-                        dataframe.add(tmpDateColonne);
                         break;
                 }
             }
@@ -446,9 +430,9 @@ public class DataFrame {
         private String strValue;
         private int intValue;
         private float floatValue;
-        private Date dateValue;
 
         public multiType(String input) throws ParseException {
+            input = input.trim();
             type = getType(input);
             switch (type) {
                 case 0:
@@ -460,9 +444,6 @@ public class DataFrame {
                 case 2:
                     floatValue = Float.parseFloat(input);
                     break;
-                case 3:
-                    dateValue = DateFormat.getDateInstance().parse(input);
-                    break;
                 default:
                     break;
             }
@@ -470,25 +451,18 @@ public class DataFrame {
 
         private int getType(String input) {
             String intRegex = "\\d+";
-            String floatRegex = "[+-]?(\\d+([.]\\d*)?|[.]\\d+)";
-            String dateRegex = "\\d\\d/\\d\\d/\\d\\d\\d\\d";
+            String floatRegex = "[+-]?(\\d+([.]\\d*)|[.]\\d+)";
             Pattern intPattern = Pattern.compile(intRegex);
             Pattern floatPattern = Pattern.compile(floatRegex);
-            Pattern datePattern = Pattern.compile(dateRegex);
             Matcher intMatcher = intPattern.matcher(input);
             Matcher floatMatcher = floatPattern.matcher(input);
-            Matcher dateMatcher = datePattern.matcher(input);
-            if (dateMatcher.matches()) {
-                return 3;
+            if (floatMatcher.matches()) {
+                return 2;
             } else {
-                if (floatMatcher.matches()) {
-                    return 2;
+                if (intMatcher.matches()) {
+                    return 1;
                 } else {
-                    if (intMatcher.matches()) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
+                    return 0;
                 }
             }
         }
@@ -507,10 +481,6 @@ public class DataFrame {
 
         public float getFloat() {
             return floatValue;
-        }
-
-        public Date getDate() {
-            return dateValue;
         }
     }
 }
