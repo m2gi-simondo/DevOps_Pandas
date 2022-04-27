@@ -42,7 +42,11 @@ public class DataFrame {
             }
         }
         if (nbLigne == 0) {
-            nbLigne = 1;
+            if (dataframe.size() == 0) {
+                nbLigne = 0;
+            } else {
+                nbLigne = dataframe.get(0).size();
+            }
         }
     }
 
