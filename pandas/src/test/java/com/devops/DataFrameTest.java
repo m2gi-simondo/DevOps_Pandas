@@ -304,6 +304,33 @@ public class DataFrameTest {
     }
 
     @Test
+    public void TestMoyenne(){
+            ArrayList<String> labels = new ArrayList<String>();
+            labels.add("col1");
+            labels.add("col2");
+            ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
+            ArrayList<Integer> colonne1 = new ArrayList<Integer>();
+            colonne1.add(1);
+            colonne1.add(2);
+            colonne1.add(3);
+            data.add(colonne1);
+            ArrayList<Integer> colonne2 = new ArrayList<Integer>();
+            colonne2.add(4);
+            colonne2.add(5);
+            colonne2.add(6);
+            data.add(colonne2);
+        DataFrame df;
+        try {
+            df = new DataFrame(labels, data);
+            assertEquals("Nombre de colonne : ", 2, df.nbColonne());
+            System.out.println(df.moyenne("col1"));
+            double res = 2.0;
+            assertEquals("Moyenne : ",res, df.moyenne("col1"),0.001);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void TestLabelSelection(){
         String[] nomLabels = {"col1", "col2", "col3"};
         ArrayList<String> labels = createArrayList(nomLabels);
@@ -330,6 +357,57 @@ public class DataFrameTest {
     }
 
     @Test
+    public void TestMax(){
+            ArrayList<String> labels = new ArrayList<String>();
+            labels.add("col1");
+            labels.add("col2");
+            ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
+            ArrayList<Integer> colonne1 = new ArrayList<Integer>();
+            colonne1.add(1);
+            colonne1.add(2);
+            colonne1.add(3);
+            data.add(colonne1);
+            ArrayList<Integer> colonne2 = new ArrayList<Integer>();
+            colonne2.add(4);
+            colonne2.add(5);
+            colonne2.add(6);
+            data.add(colonne2);
+        DataFrame df;
+        try {
+            df = new DataFrame(labels, data);
+            assertEquals("Nombre de colonne : ", 2, df.nbColonne());
+            assertEquals("Max : ",6.0, df.max("col2"),0.001);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //test min
+    @Test
+    public void TestMin(){
+            ArrayList<String> labels = new ArrayList<String>();
+            labels.add("col1");
+            labels.add("col2");
+            ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
+            ArrayList<Integer> colonne1 = new ArrayList<Integer>();
+            colonne1.add(1);
+            colonne1.add(2);
+            colonne1.add(3);
+            data.add(colonne1);
+            ArrayList<Integer> colonne2 = new ArrayList<Integer>();
+            colonne2.add(4);
+            colonne2.add(5);
+            colonne2.add(6);
+            data.add(colonne2);
+        DataFrame df;
+        try {
+            df = new DataFrame(labels, data);
+            assertEquals("Nombre de colonne : ", 2, df.nbColonne());
+            assertEquals("Min : ",1.0, df.min("col1"),0.001);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void TestLabelsSelection(){
         String[] nomLabels = {"col1", "col2", "col3"};
         ArrayList<String> labels = createArrayList(nomLabels);
@@ -357,6 +435,90 @@ public class DataFrameTest {
     }
 
     @Test
+    public void TestMediane(){
+            ArrayList<String> labels = new ArrayList<String>();
+            labels.add("col1");
+            ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
+            ArrayList<Float> colonne1 = new ArrayList<Float>();
+            colonne1.add(1.0f);
+            colonne1.add(2.0f);
+            colonne1.add(3.0f);
+            colonne1.add(4.0f);
+            data.add(colonne1);
+            DataFrame df;
+        try {
+            df = new DataFrame(labels, data);
+            assertEquals("Nombre de colonne : ", 1, df.nbColonne());
+            assertEquals("Mediane : ", 2.5, df.mediane("col1"),0.001);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //test premier quartile
+    @Test
+    public void TestPremierQuartile(){
+            ArrayList<String> labels = new ArrayList<String>();
+            labels.add("col1");
+            ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
+            ArrayList<Float> colonne1 = new ArrayList<Float>();
+            colonne1.add(1.0f);
+            colonne1.add(2.0f);
+            colonne1.add(3.0f);
+            colonne1.add(4.0f);
+            data.add(colonne1);
+            DataFrame df;
+        try {
+            df = new DataFrame(labels, data);
+            assertEquals("Nombre de colonne : ", 1, df.nbColonne());
+            assertEquals("Premier quartile : ", 1.5, df.premierQuartile("col1"),0.001);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void TestTroisiemeQuartile(){
+            ArrayList<String> labels = new ArrayList<String>();
+            labels.add("col1");
+            ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
+            ArrayList<Integer> colonne1 = new ArrayList<Integer>();
+            colonne1.add(1);
+            colonne1.add(2);
+            colonne1.add(3);
+            colonne1.add(4);
+            data.add(colonne1);
+            DataFrame df;
+        try {
+            df = new DataFrame(labels, data);
+            assertEquals("Nombre de colonne : ", 1, df.nbColonne());
+            assertEquals("Troisieme quartile : ", 3.5, df.troisiemeQuartile("col1"),0.001);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //test interquartile range
+    @Test
+    public void distanceInterQuartile(){
+            ArrayList<String> labels = new ArrayList<String>();
+            labels.add("col1");
+            ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
+            ArrayList<Integer> colonne1 = new ArrayList<Integer>();
+            colonne1.add(1);
+            colonne1.add(2);
+            colonne1.add(3);
+            colonne1.add(4);
+            data.add(colonne1);
+            DataFrame df;
+        try {
+            df = new DataFrame(labels, data);
+            assertEquals("Nombre de colonne : ", 1, df.nbColonne());
+            assertEquals("Interquartile range : ",2.0, df.distanceInterQuartile("col1"),0.001);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void TestLabelsSelectionCopy(){
         String[] nomLabels = {"col1", "col2", "col3"};
         ArrayList<String> labels = createArrayList(nomLabels);
@@ -435,6 +597,7 @@ public class DataFrameTest {
             fail("Problème dans le test.");
         }
     }
+
 
 
 }
