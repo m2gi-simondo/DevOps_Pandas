@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ jacocoBadgeGen ]
+    branches: [ master ]
   pull_request:
-    branches: [ jacocoBadgeGen ]
+    branches: [ master ]
 
 jobs:
   build:
