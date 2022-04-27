@@ -3,16 +3,16 @@ package com.devops;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Arrays;
+
 
 public class DataFrame {
     ArrayList<String> labels;
     ArrayList<ArrayList<?>> dataframe;
     private Integer nbLigne = 0;
-
 
 
     /**
@@ -390,6 +390,7 @@ public class DataFrame {
         if (!(dataframe.get(i).get(0) instanceof Integer || dataframe.get(i).get(0) instanceof Float) || dataframe.get(i).get(0) instanceof Double) {
             throw new IllegalArgumentException("La colonne n'est pas de type numérique");
         }
+
         ArrayList<?> ligne = convertToDouble(dataframe.get(i));
         double sum = 0;
         int nb = 0;
@@ -398,6 +399,33 @@ public class DataFrame {
             nb++;
         }
         return sum / nb;
+    }
+
+    /**
+    * Fonction qui retourne la moyenne d'une colonne d'un dataframe
+    * @param string : nom de la colonne
+    * @exception IllegalArgumentException si la colonne n'existe pas
+    * @exception IllegalArgumentException si la colonne n'est pas de type numérique
+    * @return la moyenne d'une colonne d'un dataframe
+    */
+    public double max(String string) throws IllegalArgumentException {
+        int i = labels.indexOf(string);
+        if (i == -1) {
+            throw new IllegalArgumentException("La colonne n'existe pas");
+        }
+
+        if (!(dataframe.get(i).get(0) instanceof Integer || dataframe.get(i).get(0) instanceof Float) || dataframe.get(i).get(0) instanceof Double) {
+            throw new IllegalArgumentException("La colonne n'est pas de type numérique");
+        }
+        ArrayList<Double> ligne = convertToDouble(dataframe.get(i));
+
+        double max = (double) ligne.get(0);
+        for (int j = 0; j < ligne.size(); j++) {
+            if ((double)ligne.get(j) > max) {
+                max = (double) ligne.get(j);
+            }
+        }
+        return max;
     }
 
     /**
@@ -531,6 +559,35 @@ public class DataFrame {
         return troisiemeQuartile - premierQuartile ;
     }
 
+
+    /**
+     * Fonction qui retourne le troisième quartile d'une colonne d'un dataframe
+     * @param string : nom de la colonne
+     * @return le troisième quartile d'une colonne d'un dataframe
+     */
+    private ArrayList<Double> convertToDouble(ArrayList<?> list) {
+        ArrayList<Double> listDouble = new ArrayList<>();
+        switch (list.get(0).getClass().getName()) {
+            case "java.lang.Integer":
+                for (int i = 0; i < list.size(); i++) {
+                    listDouble.add(((Integer) list.get(i)).doubleValue());
+                }
+                break;
+            case "java.lang.Float":
+                for (int i = 0; i < list.size(); i++) {
+                    listDouble.add(((Float) list.get(i)).doubleValue());
+                }
+                break;
+            case "java.lang.Double":
+                for (int i = 0; i < list.size(); i++) {
+                    listDouble.add((Double) list.get(i));
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("La colonne n'est pas de type numérique");
+        }
+        return listDouble;
+    }
 
 
     /**
