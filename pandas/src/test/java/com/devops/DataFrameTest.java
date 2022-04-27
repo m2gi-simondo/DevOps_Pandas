@@ -37,6 +37,7 @@ public class DataFrameTest {
             colonne1.add(2);
             colonne1.add(3);
             data.add(colonne1);
+
             ArrayList<String> colonne2 = new ArrayList<String>();
             colonne2.add("4");
             colonne2.add("5");
@@ -56,6 +57,7 @@ public class DataFrameTest {
             System.out.println(df.getColumn("col1").get(0).getClass());
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
     @Test
@@ -74,6 +76,7 @@ public class DataFrameTest {
             assertEquals("Obtenir la deuxieme valeur de la quatrieme colonne", Float.parseFloat("1.2"), df.getColumn("col4").get(1));
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }//*/
 
@@ -93,6 +96,7 @@ public class DataFrameTest {
             assertEquals("Nombre de ligne : ",3, df.nbLigne());
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
     
@@ -115,6 +119,7 @@ public class DataFrameTest {
             assertEquals("Nombre de ligne ", 0, df.nbLigne());
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
 
@@ -134,6 +139,7 @@ public class DataFrameTest {
             assertEquals("Nombre de colonne : ", 1, df.nbColonne());
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
 
@@ -147,6 +153,7 @@ public class DataFrameTest {
             assertEquals("Nombre de colonne ", 0, df.nbColonne());
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
 
@@ -181,6 +188,7 @@ public class DataFrameTest {
             assertEquals("Obtenir la troisieme colonne", colonne3, df.getColumn("col3"));
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
 
@@ -240,11 +248,43 @@ public class DataFrameTest {
             assertEquals("Obtenir la premiere colonne","col1\tcol2\tcol3\t\n1\t4\t7\t\n", df.head(1));
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
 
      @Test
     public void TestHead(){
+        ArrayList<String> labels = new ArrayList<String>();
+            labels.add("col1");
+            labels.add("col2");
+            labels.add("col3");
+            ArrayList<ArrayList<?>> data = new ArrayList<ArrayList<?>>();
+            ArrayList<Integer> colonne1 = new ArrayList<Integer>();
+            colonne1.add(1);
+            colonne1.add(2);
+            colonne1.add(3);
+            data.add(colonne1);
+            ArrayList<Integer> colonne2 = new ArrayList<Integer>();
+            colonne2.add(4);
+            data.add(colonne2);
+            ArrayList<Integer> colonne3 = new ArrayList<Integer>();
+            colonne3.add(7);
+            colonne3.add(8);
+            colonne3.add(9);
+            data.add(colonne3);
+        DataFrame df;
+        try {
+            df = new DataFrame(labels, data);
+            assertEquals("Nombre de colonne : ",3, df.nbColonne());
+            assertEquals("Obtenir la premiere colonne","col1\tcol2\tcol3\t\n1\t4\t7\t\n2\t4\t8\t\n3\t4\t9\t\n", df.head());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Problème dans le test.");
+        }
+    }
+    
+    @Test
+    public void TestTail(){
         ArrayList<String> labels = new ArrayList<String>();
             labels.add("col1");
             labels.add("col2");
@@ -268,13 +308,14 @@ public class DataFrameTest {
         DataFrame df;
         try {
             df = new DataFrame(labels, data);
-            assertEquals("Nombre de colonne : ",3, df.nbColonne());
-            assertEquals("Obtenir la premiere colonne","col1\tcol2\tcol3\t\n1\t4\t7\t\n2\t5\t8\t\n3\t6\t9\t\n", df.head());
+            assertEquals("Nombre de colonne : ", 3, df.nbColonne());
+            assertEquals("Obtenir la premiere colonne","col1\tcol2\tcol3\t\n2\t5\t8\t\n3\t6\t9\t\n", df.tail(2));
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
-    
+
     @Test
     public void TestToString(){
         ArrayList<String> labels = new ArrayList<String>();
@@ -298,6 +339,7 @@ public class DataFrameTest {
             assertEquals("Obtenir la premiere colonne","col1\tcol2\t\n1\t4\t\n2\t5\t\n3\t6\t\n", df.toString());
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
 
@@ -326,6 +368,7 @@ public class DataFrameTest {
             assertSame("Moyenne : ", 2, df.moyenne("col1"));
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
 
@@ -353,6 +396,7 @@ public class DataFrameTest {
             assertSame("Max : ",6, df.max("col2"));
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Problème dans le test.");
         }
     }
 
