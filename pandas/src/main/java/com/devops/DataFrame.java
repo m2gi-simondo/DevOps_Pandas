@@ -42,7 +42,11 @@ public class DataFrame {
             }
         }
         if (nbLigne == 0) {
-            nbLigne = 1;
+            if (dataframe.size() == 0) {
+                nbLigne = 0;
+            } else {
+                nbLigne = dataframe.get(0).size();
+            }
         }
     }
 
@@ -272,13 +276,27 @@ public class DataFrame {
             return null;
         }
     }
+
+    /**
+     * 
+     * Crée un DataFrame à partir d'une sélection de lignes et de colonne
+     * @param indexs : tableau des indices des lignes à prendre
+     * @param labels : tableau des labels des colonnes à prendre
+     * @return : nouveau DataFrame
+     */
+    public DataFrame selection(Integer[] indexs, String[] labels){
+        DataFrame df1, df2;
+        df1 = ligneIndexSelection(indexs);
+        df2 = df1.labelSelection(labels);
+        return df2;
+    }
     
     /**
     * Fonction qui retourne le nombre de ligne du DataFrame
     * @return le nombre de ligne du DataFrame
     */
 	public int nbLigne() {
-        return dataframe.get(0).size();
+        return nbLigne;
     }
 
     /**
