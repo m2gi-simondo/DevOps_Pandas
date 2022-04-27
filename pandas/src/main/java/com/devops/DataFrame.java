@@ -1,15 +1,13 @@
 package com.devops;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.swing.text.TableView.TableRow;
 
 public class DataFrame {
     ArrayList<String> labels;
@@ -55,12 +53,13 @@ public class DataFrame {
      */
 
     public DataFrame(String fileName) {
+        Scanner scanner = null;
         try {
             labels = new ArrayList<String>();
-            dataframe = new ArrayList<ArrayList<?>>();
+            ArrayList<ArrayList<multiType>> tmpDataframe = new ArrayList<ArrayList<multiType>>();
             int nbLabel = 0;
             File file = new File(fileName);
-            Scanner scanner = new Scanner(file);
+            scanner = new Scanner(file);
             String[] line = scanner.nextLine().split(",");
             nbLabel = line.length;
             for (String label : line) {
@@ -72,63 +71,75 @@ public class DataFrame {
             if (line.length != nbLabel) {
                 throw new Exception("la première ligne ne contient pas le bon nombre d'élément");
             }
-
-            for (String input : line) {
-                switch (multiType.getType(input)) {
-                    case 0:
-                        ArrayList<String> stringColonne = new ArrayList<String>();
-                        stringColonne.add(input);
-                        dataframe.add(stringColonne);
-                        break;
-                    case 1:
-                        ArrayList<Integer> intColonne = new ArrayList<Integer>();
-                        intColonne.add(Integer.parseInt(input));
-                        dataframe.add(intColonne);
-                        break;
-                    case 2:
-                        ArrayList<Float> floatColonne = new ArrayList<Float>();
-                        floatColonne.add(Float.parseFloat(input));
-                        dataframe.add(floatColonne);
-                        break;
-                    case 3:
-                        Date date = DateFormat.getDateInstance().parse(input);
-                        ArrayList<Date> dateColonne = new ArrayList<Date>();
-                        dataframe.add(dateColonne);
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-            // TODO -----------------------------use multitype to
-            // simplify-----------------------
+            multiType newInput;
             while (scanner.hasNextLine()) {
                 line = scanner.nextLine().split(",");
                 if (line.length != nbLabel) {
                     throw new Exception("Une ligne ne contient pas le bon nombre d'élément");
                 }
                 for (int i = 0; i < line.length; i++) {
-                    switch (multiType.getType(line[i])) {
-                        case 0:
-                            dataframe.get(i).add(line[i]);
-                            break;
-                        case 1:
-                            dataframe.get(i).add(Integer.parseInt(line[i]));
-                            break;
-                        case 2:
-                            dataframe.get(i).add(Float.parseFloat(line[i]));
-                            break;
-                        case 3:
-                            dataframe.get(i).add(DateFormat.getDateInstance().parse(line[i]));
-                            break;
-                        default:
-                            break;
-                    }
+                    newInput = new multiType(line[i]);
+                    tmpDataframe.get(i).add(newInput);
                 }
             }
-            scanner.close();
+
+            //on a un tableau temporaire complet, il faut maintenant le convertir pour avoir les bons types.
+            for(int i = 0; i < tmpDataframe.size(); i++){
+                ArrayList<multiType> colonneCourante = tmpDataframe.get(i);
+                switch(colonneCourante.get(0).getMultiType()){
+                    case 0:
+                        ArrayList<String> tmpStrColonne = new ArrayList<String>();
+                        for(int j = 0; j < colonneCourante.size(); j++){
+                            multiType item = colonneCourante.get(j);
+                            if(item.getMultiType() != 0){
+                                throw new Exception("Le type d'un élément de la colonne n'est pas le même que les autres");
+                            }
+                            tmpStrColonne.add(item.getStr());
+                        }
+                        dataframe.add(tmpStrColonne);
+                        break;
+                    case 1:
+                        ArrayList<Integer> tmpIntColonne = new ArrayList<Integer>();
+                        for(int j = 0; j < colonneCourante.size(); j++){
+                            multiType item = colonneCourante.get(j);
+                            if(item.getMultiType() != 1){
+                                throw new Exception("Le type d'un élément de la colonne n'est pas le même que les autres");
+                            }
+                            tmpIntColonne.add(item.getInt());
+                        }
+                        dataframe.add(tmpIntColonne);
+                        break;
+                    case 2:
+                        ArrayList<Float> tmpFloatColonne = new ArrayList<Float>();
+                        for(int j = 0; j < colonneCourante.size(); j++){
+                            multiType item = colonneCourante.get(j);
+                            if(item.getMultiType() != 2){
+                                throw new Exception("Le type d'un élément de la colonne n'est pas le même que les autres");
+                            }
+                            tmpFloatColonne.add(item.getFloat());
+                        }
+                        dataframe.add(tmpFloatColonne);
+                        break;
+                    case 3:
+                        ArrayList<Date> tmpDateColonne = new ArrayList<Date>();
+                        for(int j = 0; j < colonneCourante.size(); j++){
+                            multiType item = colonneCourante.get(j);
+                            if(item.getMultiType() != 3){
+                                throw new Exception("Le type d'un élément de la colonne n'est pas le même que les autres");
+                            }
+                            tmpDateColonne.add(item.getDate());
+                        }
+                        dataframe.add(tmpDateColonne);
+                        break;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally{
+            if (scanner != null){
+                scanner.close();
+            }
         }
     }
 
@@ -306,7 +317,7 @@ public class DataFrame {
         private float floatValue;
         private Date dateValue;
 
-        public multiType(String input) {
+        public multiType(String input) throws ParseException {
             type = getType(input);
             switch (type) {
                 case 0:
@@ -326,7 +337,7 @@ public class DataFrame {
             }
         }
 
-        static private int getType(String input) {
+        private int getType(String input) {
             String intRegex = "\\d+";
             String floatRegex = "[+-]?(\\d+([.]\\d*)?|[.]\\d+)";
             String dateRegex = "\\d\\d/\\d\\d/\\d\\d\\d\\d";
